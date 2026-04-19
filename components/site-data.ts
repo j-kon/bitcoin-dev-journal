@@ -1,15 +1,9 @@
 export const navItems = [
   { label: "Problem", href: "#problem" },
+  { label: "Proof", href: "#proof" },
   { label: "Flow", href: "#flow" },
   { label: "Profile", href: "#profile" },
   { label: "Export", href: "#export" },
-];
-
-export const proofSignals = [
-  "Learning in public",
-  "BDK ecosystem",
-  "Root Wallet",
-  "Visible proof of work",
 ];
 
 export const whyICarePoints = [
@@ -73,41 +67,6 @@ export const pipelineCards = [
   {
     title: "Get Funded",
     detail: "When it is time to apply, the evidence is already structured: timeline, repos, reflections, and proof of consistency.",
-  },
-];
-
-export const profileStats = [
-  { label: "Weeks logged", value: "18" },
-  { label: "Public reviews", value: "27" },
-  { label: "Concept notes", value: "34" },
-  { label: "Repos touched", value: "6" },
-];
-
-export const activityFeed = [
-  {
-    kind: "Review",
-    title: "Reviewed PR #974 in bdk-ffi",
-    detail: "Mapped the FFI surface before commenting on naming and API clarity.",
-  },
-  {
-    kind: "Issue",
-    title: "Explored issue context before opening a PR",
-    detail: "Read prior discussion, traced the wallet flow, and narrowed the actual change request.",
-  },
-  {
-    kind: "Reading",
-    title: "Read BIP-86",
-    detail: "Wrote down what changed in my mental model around single-key taproot paths.",
-  },
-  {
-    kind: "Reflection",
-    title: "Wrote about descriptor checksums",
-    detail: "Turned a confusing concept into a note I could reuse later and point others to.",
-  },
-  {
-    kind: "Shipping",
-    title: "Shipped a Root Wallet improvement",
-    detail: "Closed the loop between wallet-building work and upstream Bitcoin learning.",
   },
 ];
 

@@ -36,6 +36,9 @@ jobs:
 
       - name: Build static export
         run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_LOGIN: j-kon
 
       - name: Mark Pages artifact as static
         run: touch out/.nojekyll

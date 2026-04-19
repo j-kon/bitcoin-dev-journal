@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://j-kon.github.io/bitcoin-dev-journal/"),
   title: "Bitcoin Dev Journal",
   description:
-    "A public proof-of-work journal for Bitcoin developers shaped by learning in public, reviewing pull requests, and contributing around the BDK ecosystem.",
+    "A dark, animated Bitcoin Dev Journal product demo that turns open-source learning and contribution into visible proof of work.",
 };
 
 export default function RootLayout({
