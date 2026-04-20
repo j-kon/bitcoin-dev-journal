@@ -112,10 +112,10 @@ export function LandingPage({ githubData }: LandingPageProps) {
           <p className="section-eyebrow">Public proof-of-work journal</p>
           <h1>Bitcoin Dev Journal</h1>
           <p className="hero-subtitle">
-            A public record of how I am learning, contributing, and building in Bitcoin open source.
+            A public record of how I’m learning, contributing, and building in Bitcoin open source.
           </p>
           <p className="hero-body">
-            Shaped by my path through BDK, review work, issue exploration, and building Root Wallet to make Bitcoin wallet ideas concrete.
+            This comes directly out of how I actually work: reading through BDK, reviewing pull requests, narrowing issues before I code, and building Root Wallet so Bitcoin wallet ideas have to survive real product decisions.
           </p>
 
           <div className="hero-actions">
@@ -141,7 +141,7 @@ export function LandingPage({ githubData }: LandingPageProps) {
             <div className="dashboard-header">
               <div>
                 <p className="callout-label">Live dashboard</p>
-                <h2>Visible progress, not hidden effort</h2>
+                <h2>Visible progress, not just commits</h2>
               </div>
               <span className="status-pill">
                 {githubData.meta.tokenUsed
@@ -171,7 +171,7 @@ export function LandingPage({ githubData }: LandingPageProps) {
 
             <div className="dashboard-panel">
               <div className="panel-label-row">
-                <p className="callout-label">Recent contribution highlights</p>
+                <p className="callout-label">Recent work</p>
                 <span className="timeline-chip">
                   {githubData.repos.length} tracked repos
                 </span>
@@ -202,19 +202,19 @@ export function LandingPage({ githubData }: LandingPageProps) {
         <article className="surface-card">
           <SectionHeading
             eyebrow="The gap"
-            title="A lot of the work shaping my path happens before there is an obvious artifact to point at."
-            intro="Code reading, review, issue narrowing, and concept work are real progress. They just disappear unless I log them."
+            title="A lot of the work shaping my path happens before there is anything obvious to point at."
+            intro="Code reading, review, issue narrowing, and concept work all count. They just disappear if I do not log them."
           />
           <p>
-            Bitcoin Dev Journal is the structure I wanted for that middle layer between curiosity and contribution.
+            Bitcoin Dev Journal is the structure I wanted for that middle layer between curiosity and shipped work.
           </p>
         </article>
 
         <aside className="callout-card">
           <p className="callout-label">Why this matters</p>
-          <h3>My path is not only the merged diff. It is the trail that leads to it.</h3>
+          <h3>The merged diff is only the visible end of the work.</h3>
           <p>
-            The journal makes the thinking around the work visible enough to learn from, share, and fund.
+            The journal keeps the trail to it visible enough to learn from, share, and point to later.
           </p>
         </aside>
       </Reveal>
@@ -223,16 +223,16 @@ export function LandingPage({ githubData }: LandingPageProps) {
         <Reveal className="surface-card">
           <SectionHeading
             eyebrow="Why I care"
-            title="I’m proposing this from inside the work, not from a distance."
-            intro="My path has been shaped by learning in public, reading code before I feel ready to change it, reviewing PRs to sharpen judgment, exploring issue context before proposing fixes, and building Root Wallet to make wallet concepts concrete."
+            title="I’m not proposing this from the outside."
+            intro="My path has been shaped by learning in public, reading code before I feel ready to change it, reviewing PRs to sharpen judgment, tracing issue context before proposing fixes, and building Root Wallet so wallet ideas stop staying abstract."
           />
           <div className="two-column">
             <div className="body-stack">
               <p>
-                A lot of the work shaping me has happened in that quiet middle layer: understanding descriptors, seeing why interface shape matters, or narrowing the real problem before touching a patch.
+                A lot of the work shaping me has happened in that quiet middle layer: understanding descriptors, noticing why interface shape matters, or narrowing the real problem before touching a patch.
               </p>
               <p>
-                Bitcoin Dev Journal grew out of wanting that layer to stay visible.
+                Bitcoin Dev Journal came out of wanting that layer to stay visible.
               </p>
             </div>
 
@@ -247,8 +247,8 @@ export function LandingPage({ githubData }: LandingPageProps) {
         <Reveal className="surface-card" delay={0.08}>
           <SectionHeading
             eyebrow="What it is"
-            title="A public learning journal shaped by the way I actually move through Bitcoin open source."
-            intro="A place to log what I read, reviewed, explored, built, misunderstood, and eventually understood."
+            title="A public journal shaped by how I actually move through Bitcoin open source."
+            intro="A place to log what I read, review, explore, build, misunderstand, and finally understand."
           />
           <p>
             Not a feed. A working record.
@@ -259,8 +259,8 @@ export function LandingPage({ githubData }: LandingPageProps) {
       <Reveal id="proof" className="surface-card proof-shell">
         <SectionHeading
           eyebrow="Live proof of work"
-          title="These repositories are the actual trail of my work."
-          intro="Tracked repos, recent changes, and the journal layer around them."
+          title="These repos are where my path is taking shape."
+          intro="BDK, bdk-ffi, Root Wallet, and the work growing around them."
         />
 
         <div className="proof-summary-row">
@@ -373,8 +373,8 @@ export function LandingPage({ githubData }: LandingPageProps) {
       <Reveal id="journal" className="surface-card">
         <SectionHeading
           eyebrow="Journal layer"
-          title="This is the part GitHub does not capture."
-          intro="Reading until something clicks. Narrowing the real problem. Writing until the understanding feels owned."
+          title="GitHub does not show this part."
+          intro="Reading until something clicks. Narrowing the real problem. Writing until the understanding feels like mine."
         />
 
         <div className="journal-grid">
@@ -387,25 +387,25 @@ export function LandingPage({ githubData }: LandingPageProps) {
       <Reveal className="surface-card">
         <SectionHeading
           eyebrow="Why I built Root Wallet"
-          title="I built Root Wallet because I did not want my Bitcoin learning to stay abstract."
-          intro="I wanted a product lane where wallet concepts had to survive real app decisions."
+          title="I built Root Wallet so my Bitcoin learning had to touch a real product."
+          intro="I wanted wallet concepts to survive actual app decisions, not stay stuck at the theory layer."
         />
         <div className="two-column">
           <div className="body-stack">
             <p>
-              Root Wallet is where upstream understanding and product decisions pressure each other.
+              Root Wallet is where upstream BDK learning and product decisions push against each other.
             </p>
             <p>
-              It is both a product and a learning instrument.
+              It is both a product and the place where I check whether I really understand what I think I understand.
             </p>
           </div>
           <div className="surface-inset">
             <p className="callout-label">What Root Wallet gives me</p>
             <ul className="stack-list compact-list">
               <li>A place where wallet concepts have to survive user-facing decisions</li>
-              <li>A concrete link between BDK learning and product building</li>
-              <li>A way to test intuition instead of keeping it theoretical</li>
-              <li>A public lane where upstream understanding can become shipped work</li>
+              <li>A direct link between BDK learning and product work</li>
+              <li>A way to test intuition instead of leaving it theoretical</li>
+              <li>A public lane where upstream understanding can turn into shipped work</li>
             </ul>
           </div>
         </div>
@@ -414,8 +414,8 @@ export function LandingPage({ githubData }: LandingPageProps) {
       <Reveal className="surface-card">
         <SectionHeading
           eyebrow="Featured repositories"
-          title="These repos are chapters in my journey."
-          intro="Each one matters because of what it is teaching me and what kind of contribution it pulls out of me."
+          title="These repos are shaping how I think."
+          intro="Each one matters because of what it keeps teaching me and what kind of work it pulls out of me."
         />
         <div className="repo-grid">
           {githubData.repos.map((repo, index) => (
@@ -457,7 +457,7 @@ export function LandingPage({ githubData }: LandingPageProps) {
       <Reveal className="surface-card">
         <SectionHeading
           eyebrow="What developers log"
-          title="These are the entries that make my path legible."
+          title="These entries make my work legible."
           intro="Not just shipped code. The route to shipped code."
         />
         <div className="tri-grid">
@@ -481,8 +481,8 @@ export function LandingPage({ githubData }: LandingPageProps) {
       <Reveal id="profile" className="surface-card profile-showcase">
         <SectionHeading
           eyebrow="Dynamic public profile"
-          title="A builder profile that reads like my actual trail."
-          intro="Less persona, more proof."
+          title="A public profile that reads like how I actually work."
+          intro="Less persona, more trail."
         />
 
         <div className="profile-shell">
@@ -540,9 +540,9 @@ export function LandingPage({ githubData }: LandingPageProps) {
             <div className="panel-label-row">
               <div>
                 <p className="callout-label">Proof-of-work stream</p>
-                <h3>Recent signals</h3>
+                <h3>Recent trail</h3>
               </div>
-              <span className="status-pill">Builder-to-builder</span>
+              <span className="status-pill">Work in public</span>
             </div>
 
             <div className="feed-list">
@@ -573,8 +573,8 @@ export function LandingPage({ githubData }: LandingPageProps) {
       <Reveal className="surface-card">
         <SectionHeading
           eyebrow="Contribution signals"
-          title="The themes matter as much as the events."
-          intro="BDK, wallet architecture, descriptors, API clarity, cross-language surfaces, Root Wallet, learning in public."
+          title="The pattern matters as much as the event."
+          intro="BDK, wallet architecture, descriptors, API clarity, cross-language surfaces, Root Wallet."
         />
         <div className="signal-grid">
           {githubData.signals.map((signal) => (
@@ -589,11 +589,11 @@ export function LandingPage({ githubData }: LandingPageProps) {
         </div>
       </Reveal>
 
-      <Reveal className="surface-card">
+      <Reveal id="export" className="surface-card">
         <SectionHeading
           eyebrow="Why BDP should ship this"
-          title="It strengthens the same path I am already walking."
-          intro="This idea comes from inside the work, not outside it."
+          title="It backs the path I’m already on."
+          intro="This idea came out of the work itself."
         />
         <div className="tri-grid compact-grid">
           {missionReasons.map((reason) => (
@@ -608,10 +608,10 @@ export function LandingPage({ githubData }: LandingPageProps) {
       <Reveal className="closing-card">
         <p className="section-eyebrow">Closing pitch</p>
         <h2>
-          Bitcoin Dev Journal is the public shape of my path through Bitcoin open source.
+          Bitcoin Dev Journal is the public shape of how I’m finding my way through Bitcoin open source.
         </h2>
         <p>
-          Reading, review, issue exploration, contribution, and Root Wallet building, kept legible in one place.
+          Reading, review, issue exploration, contribution, and Root Wallet building, kept in one legible trail.
         </p>
         <div className="hero-actions">
           <a className="button button-primary" href="#proof">
