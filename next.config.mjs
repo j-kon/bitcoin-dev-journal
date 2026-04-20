@@ -1,4 +1,6 @@
-const basePath = "/bitcoin-dev-journal";
+const deployTarget = process.env.DEPLOY_TARGET;
+const isGitHubPages = deployTarget === "github-pages";
+const basePath = isGitHubPages ? "/bitcoin-dev-journal" : "";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -7,8 +9,12 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath,
-  assetPrefix: `${basePath}/`,
+  ...(basePath
+    ? {
+        basePath,
+        assetPrefix: `${basePath}/`,
+      }
+    : {}),
 };
 
 export default nextConfig;

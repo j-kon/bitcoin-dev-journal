@@ -1,6 +1,8 @@
 # Bitcoin Dev Journal
 
-A dark, animated Next.js product demo for the **Bitcoin Dev Journal** concept, built for deployment to GitHub Pages at:
+A dark, animated Next.js product demo for the **Bitcoin Dev Journal** concept, built to deploy cleanly to both GitHub Pages and Vercel.
+
+GitHub Pages target:
 
 `https://j-kon.github.io/bitcoin-dev-journal/`
 
@@ -16,9 +18,11 @@ A dark, animated Next.js product demo for the **Bitcoin Dev Journal** concept, b
 
 - Dark product-grade UI with motion-driven reveals, counters, and activity transitions
 - A GitHub-powered proof-of-work section for tracked repos
+- A typed journal-entry layer for learning notes, reviews, reflections, and next steps
 - Featured repository cards driven by build-time data
 - A dynamic public profile mockup that mixes narrative framing with live GitHub signals
 - Static export compatibility for GitHub Pages under `/bitcoin-dev-journal/`
+- Clean root-path deployment support for Vercel
 
 ## Local development
 
@@ -37,15 +41,21 @@ npm run dev
 3. Open the site at:
 
 ```text
-http://localhost:3000/bitcoin-dev-journal/
+http://localhost:3000/
 ```
 
 ## Production build
 
-Build the static export:
+Build the default export for Vercel or any root-path static host:
 
 ```bash
 npm run build
+```
+
+Build the GitHub Pages version with the repo subpath:
+
+```bash
+npm run build:pages
 ```
 
 The exported static site is generated in `out/`.
@@ -61,6 +71,8 @@ The site fetches GitHub data at build time. No token is exposed to the client bu
 - `j-kon/root_wallet`
 
 The tracked repositories are defined in [lib/github-data.ts](/Users/jaydroid/Projects/bitcoin-dev-journal/lib/github-data.ts) so you can add more later with minimal changes.
+
+The human journal layer lives in [data/journal-entries.ts](/Users/jaydroid/Projects/bitcoin-dev-journal/data/journal-entries.ts). That file is where you add reflections, learning notes, review writeups, and next-step context that GitHub activity alone cannot express.
 
 ### Optional local environment variables
 
@@ -93,12 +105,6 @@ During development, Next runs on:
 http://localhost:3000
 ```
 
-With the configured GitHub Pages base path, the page is available at:
-
-```text
-http://localhost:3000/bitcoin-dev-journal/
-```
-
 ## GitHub Pages deployment
 
 This repo includes a GitHub Actions workflow that deploys the static export to GitHub Pages automatically on every push to `main`.
@@ -114,7 +120,7 @@ This repo includes a GitHub Actions workflow that deploys the static export to G
 After GitHub Pages is configured, every push to `main` will:
 
 1. Install dependencies with `npm ci`
-2. Build the site with `npm run build`
+2. Build the site with `npm run build:pages`
 3. Fetch GitHub data during the build using the GitHub Actions token
 4. Upload the `out/` directory
 5. Deploy it to GitHub Pages
@@ -127,10 +133,42 @@ git commit -m "Deploy Bitcoin Dev Journal"
 git push origin main
 ```
 
+## Vercel deployment
+
+This project now supports Vercel without the GitHub Pages subpath.
+
+### Quick deploy
+
+```bash
+npx vercel
+```
+
+For a production deployment:
+
+```bash
+npx vercel --prod
+```
+
+### Recommended Vercel environment variables
+
+Set these in the Vercel project if you want authenticated GitHub build-time fetches:
+
+```bash
+GITHUB_TOKEN=your_github_token
+GITHUB_LOGIN=j-kon
+```
+
+### Vercel build behavior
+
+- Vercel uses `npm run build`
+- `DEPLOY_TARGET` is not required for Vercel
+- the app deploys at the root path, not `/bitcoin-dev-journal/`
+
 ## Project notes
 
-- The site is configured for the GitHub Pages subpath `/bitcoin-dev-journal/`
-- `next.config.mjs` sets `basePath` and `assetPrefix` so assets and internal links resolve correctly
+- `next.config.mjs` switches behavior based on `DEPLOY_TARGET`
+- GitHub Pages uses `DEPLOY_TARGET=github-pages`
+- Vercel and local development use the root path by default
 - `trailingSlash: true` helps static hosting behave consistently on GitHub Pages
 - the GitHub Pages workflow passes `GITHUB_TOKEN` and `GITHUB_LOGIN` into the build step
 - if a tracked repo is unavailable or private, the UI still renders with fallback content instead of failing the build

@@ -1,3 +1,5 @@
+import { journalEntries, type JournalEntry } from "@/data/journal-entries";
+
 type RepositoryConfig = {
   owner: string;
   name: string;
@@ -61,7 +63,7 @@ type GithubCommitResponse = Array<{
   } | null;
 }>;
 
-export type ActivityKind = "pr" | "issue" | "commit";
+export type ActivityKind = "pr" | "issue" | "commit" | "journal";
 
 export type GithubActivity = {
   id: string;
@@ -120,6 +122,7 @@ export type GithubDataset = {
   pullRequests: GithubActivity[];
   issues: GithubActivity[];
   commits: GithubActivity[];
+  journalEntries: JournalEntry[];
   activity: GithubActivity[];
   timeline: Array<{
     repo: GithubRepoCard;
@@ -130,6 +133,10 @@ export type GithubDataset = {
     label: string;
     count: number;
   }>;
+  weeklyDigest: {
+    entries: JournalEntry[];
+    summary: string;
+  };
 };
 
 export const trackedRepositories: RepositoryConfig[] = [
@@ -139,7 +146,7 @@ export const trackedRepositories: RepositoryConfig[] = [
     label: "BDK Dart",
     themes: ["BDK", "Wallet architecture", "Mobile bindings"],
     narrative:
-      "A clean place to show how learning around wallet tooling turns into careful contribution work.",
+      "bdk-dart is one of the repos teaching me how wallet ideas become app-facing decisions. It keeps pulling me into the space where product feel, API shape, and Bitcoin understanding have to line up.",
   },
   {
     owner: "bitcoindevkit",
@@ -147,7 +154,7 @@ export const trackedRepositories: RepositoryConfig[] = [
     label: "BDK FFI",
     themes: ["FFI", "API clarity", "Cross-language surfaces"],
     narrative:
-      "Useful for documenting the kind of review and integration thinking that often stays invisible.",
+      "bdk-ffi sharpens a different part of my judgment. It makes me slow down around interface boundaries, naming, and the way good Rust-side decisions survive once they cross into other languages.",
   },
   {
     owner: "j-kon",
@@ -155,7 +162,7 @@ export const trackedRepositories: RepositoryConfig[] = [
     label: "Root Wallet",
     themes: ["Root Wallet", "Product building", "Descriptors"],
     narrative:
-      "The product lane where Bitcoin learning, wallet intuition, and shipping discipline meet in public.",
+      "Root Wallet is where I stop letting Bitcoin learning stay abstract. It is the lane where wallet intuition, upstream open-source understanding, and user-facing product discipline have to meet in one concrete thing.",
   },
 ];
 
@@ -170,7 +177,7 @@ const fallbackDataset: GithubDataset = {
     name: "Jaykon",
     avatarUrl: null,
     url: "https://github.com/j-kon",
-    bio: "Bitcoin open-source contributor building Root Wallet and learning in public around the BDK ecosystem.",
+    bio: "Learning, reviewing, contributing, and building through the BDK ecosystem while using Root Wallet to make Bitcoin wallet concepts concrete.",
     followers: null,
     publicRepos: null,
     location: null,
@@ -181,7 +188,7 @@ const fallbackDataset: GithubDataset = {
       label: "BDK Dart",
       url: "https://github.com/bitcoindevkit/bdk-dart",
       description:
-        "Dart-facing Bitcoin wallet tooling inside the broader BDK ecosystem.",
+        "The Dart-facing part of the BDK ecosystem that keeps turning wallet ideas into practical app decisions for me.",
       language: "Dart",
       stars: null,
       forks: null,
@@ -190,7 +197,7 @@ const fallbackDataset: GithubDataset = {
       topics: ["wallet", "dart", "bitcoin"],
       themes: ["BDK", "Wallet architecture", "Mobile bindings"],
       narrative:
-        "A clean place to show how learning around wallet tooling turns into careful contribution work.",
+        "This repo matters to my journey because it pulls Bitcoin understanding into the product layer. It keeps teaching me how wallet abstractions need to feel once they reach a real app surface.",
       status: "fallback",
     },
     {
@@ -198,7 +205,7 @@ const fallbackDataset: GithubDataset = {
       label: "BDK FFI",
       url: "https://github.com/bitcoindevkit/bdk-ffi",
       description:
-        "FFI-facing Bitcoin wallet infrastructure where reviews and interface thinking matter.",
+        "A repo that keeps forcing me to think carefully about boundaries, naming, and how clean wallet infrastructure survives across language layers.",
       language: "Rust",
       stars: null,
       forks: null,
@@ -207,7 +214,7 @@ const fallbackDataset: GithubDataset = {
       topics: ["ffi", "rust", "bitcoin"],
       themes: ["FFI", "API clarity", "Cross-language surfaces"],
       narrative:
-        "Useful for documenting the kind of review and integration thinking that often stays invisible.",
+        "This is one of the places shaping my review discipline. It makes invisible work like interface reading, naming judgment, and architecture sensitivity feel worth documenting.",
       status: "fallback",
     },
     {
@@ -215,7 +222,7 @@ const fallbackDataset: GithubDataset = {
       label: "Root Wallet",
       url: "https://github.com/j-kon/root_wallet",
       description:
-        "Root Wallet is the lane where app-building work and Bitcoin wallet intuition reinforce each other.",
+        "My wallet product lane, where Bitcoin learning stops being abstract and has to survive real user-facing decisions.",
       language: "Dart",
       stars: null,
       forks: null,
@@ -224,7 +231,7 @@ const fallbackDataset: GithubDataset = {
       topics: ["wallet", "flutter", "bitcoin"],
       themes: ["Root Wallet", "Product building", "Descriptors"],
       narrative:
-        "The product lane where Bitcoin learning, wallet intuition, and shipping discipline meet in public.",
+        "I built Root Wallet because I wanted a place where Bitcoin learning, wallet intuition, and app-building discipline could pressure each other in public.",
       status: "fallback",
     },
   ],
@@ -290,6 +297,7 @@ const fallbackDataset: GithubDataset = {
       },
     },
   ],
+  journalEntries,
   activity: [],
   timeline: [],
   signals: [],
@@ -301,9 +309,29 @@ const fallbackDataset: GithubDataset = {
     { label: "Root Wallet", count: 1 },
     { label: "Learning in public", count: 1 },
   ],
+  weeklyDigest: {
+    entries: [],
+    summary: "",
+  },
 };
 
 fallbackDataset.activity = [
+  ...journalEntries.map((entry) => ({
+    id: `journal-${entry.id}`,
+    kind: "journal" as const,
+    title: entry.title,
+    summary: entry.learned,
+    url: entry.link ?? `https://github.com/${entry.repoFullName}`,
+    date: entry.date,
+    status: "Journal",
+    repo: {
+      fullName: entry.repoFullName,
+      label:
+        trackedRepositories.find(
+          (repo) => `${repo.owner}/${repo.name}` === entry.repoFullName,
+        )?.label ?? entry.repoFullName.split("/")[1],
+    },
+  })),
   ...fallbackDataset.pullRequests,
   ...fallbackDataset.issues,
   ...fallbackDataset.commits,
@@ -318,6 +346,11 @@ fallbackDataset.timeline = fallbackDataset.repos.map((repo) => ({
 
 fallbackDataset.signals = [
   {
+    label: "Journal entries",
+    value: journalEntries.length,
+    note: "The part of my path that would be lost if I only showed GitHub links.",
+  },
+  {
     label: "Repos tracked",
     value: fallbackDataset.repos.length,
     note: "Core Bitcoin work plus the product lane in Root Wallet.",
@@ -328,16 +361,24 @@ fallbackDataset.signals = [
     note: "Pull requests and review-shaped work currently surfaced in the demo.",
   },
   {
-    label: "Issue threads",
-    value: fallbackDataset.issues.length,
-    note: "Context exploration before code lands.",
+    label: "Learning notes",
+    value: journalEntries.filter((entry) => entry.type !== "shipping").length,
+    note: "Readings, reflections, and review notes that would otherwise disappear from the public record.",
   },
   {
-    label: "Commit snapshots",
-    value: fallbackDataset.commits.length,
+    label: "Shipped artifacts",
+    value:
+      fallbackDataset.commits.length +
+      journalEntries.filter((entry) => entry.type === "shipping").length,
     note: "Shipped work connected back to the learning trail.",
   },
 ];
+
+fallbackDataset.weeklyDigest = {
+  entries: journalEntries.slice(0, 4),
+  summary:
+    "This week felt like a clear snapshot of how my Bitcoin open-source path is taking shape. I reviewed a BDK FFI pull request with more attention to interface shape, explored issue context in bdk-dart before moving toward code, used BIP-86 reading to tighten my wallet mental model, and connected that learning back to Root Wallet so the ideas had to survive contact with a real product.",
+};
 
 function getRepoFullName(repositoryUrl: string) {
   return repositoryUrl.split("/repos/")[1] ?? repositoryUrl;
@@ -358,6 +399,10 @@ function toTitleCase(kind: ActivityKind) {
 
   if (kind === "issue") {
     return "Issue";
+  }
+
+  if (kind === "journal") {
+    return "Journal";
   }
 
   return "Commit";
@@ -454,6 +499,11 @@ function createCommitActivity(
 function mergeSignals(data: GithubDataset): GithubSignal[] {
   return [
     {
+      label: "Journal entries",
+      value: data.journalEntries.length,
+      note: "The part of my path that would be lost if I only showed GitHub links.",
+    },
+    {
       label: "Repos tracked",
       value: data.repos.length,
       note: "Tracked repositories that anchor the proof-of-work story.",
@@ -464,14 +514,16 @@ function mergeSignals(data: GithubDataset): GithubSignal[] {
       note: "Pull requests surfaced from GitHub search at build time.",
     },
     {
-      label: "Issue threads",
-      value: data.issues.length,
-      note: "Issue exploration and discussion tied back to real repos.",
+      label: "Learning notes",
+      value: data.journalEntries.filter((entry) => entry.type !== "shipping").length,
+      note: "Readings, reflections, and review notes that strengthen the visible trail around my contributions.",
     },
     {
-      label: "Commit snapshots",
-      value: data.commits.length,
-      note: "Recent commits authored by the configured GitHub login where available.",
+      label: "Shipped artifacts",
+      value:
+        data.commits.length +
+        data.journalEntries.filter((entry) => entry.type === "shipping").length,
+      note: "Commits and product improvements tied back to the learning path.",
     },
   ];
 }
@@ -485,9 +537,34 @@ function mergeThemes(repos: GithubRepoCard[]) {
     });
   });
 
+  journalEntries.forEach((entry) => {
+    entry.tags.forEach((tag) => {
+      counts.set(tag, (counts.get(tag) ?? 0) + 1);
+    });
+  });
+
   return Array.from(counts.entries())
     .map(([label, count]) => ({ label, count }))
     .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+}
+
+function createJournalActivity(entry: JournalEntry): GithubActivity {
+  return {
+    id: `journal-${entry.id}`,
+    kind: "journal",
+    title: entry.title,
+    summary: entry.learned,
+    url: entry.link ?? `https://github.com/${entry.repoFullName}`,
+    date: entry.date,
+    status: "Journal",
+    repo: {
+      fullName: entry.repoFullName,
+      label:
+        trackedRepositories.find(
+          (repo) => `${repo.owner}/${repo.name}` === entry.repoFullName,
+        )?.label ?? entry.repoFullName.split("/")[1],
+    },
+  };
 }
 
 export async function getGithubDataset(): Promise<GithubDataset> {
@@ -577,7 +654,8 @@ export async function getGithubDataset(): Promise<GithubDataset> {
   });
 
   const mergedCommits = commits.length > 0 ? commits : fallbackDataset.commits;
-  const activity = [...pullRequests, ...issues, ...mergedCommits].sort((a, b) =>
+  const journalActivity = journalEntries.map(createJournalActivity);
+  const activity = [...journalActivity, ...pullRequests, ...issues, ...mergedCommits].sort((a, b) =>
     b.date.localeCompare(a.date),
   );
   const timeline = repos.map((repo) => ({
@@ -617,10 +695,16 @@ export async function getGithubDataset(): Promise<GithubDataset> {
     pullRequests,
     issues,
     commits: mergedCommits,
+    journalEntries,
     activity,
     timeline,
     signals: [],
     themes: mergeThemes(repos),
+    weeklyDigest: {
+      entries: journalEntries.slice(0, 4),
+      summary:
+        "This week reads like the kind of path I want this site to make visible. I moved between review, issue exploration, reading, and shipping, but the important part is how those threads kept informing each other. The journal shows not just what changed in GitHub, but what clicked, what stayed fuzzy, and how Root Wallet kept turning Bitcoin learning into concrete product decisions.",
+    },
   };
 
   dataset.signals = mergeSignals(dataset);
